@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { FaFire, FaArrowRight } from 'react-icons/fa';
 import Footer from './Footer';
 import ProductList from './ProductList';
+
 
 const fadeIn = keyframes`
   from {
@@ -33,7 +34,9 @@ const Content = styled.div`
   flex-direction: column;
   align-items: flex-start;
   padding: 20px;
-  max-width: 50%;
+  max-width: 80%;
+  margin-left: 40px;
+  margin-top: -10px;
 `;
 
 const MainText = styled.h1`
@@ -62,24 +65,45 @@ const FireIcon = styled(FaFire)`
   color: red;
 `;
 
-const Button = styled.button`
-  background-color: purple;
-  color: white;
-  border: none;
-  padding: 15px 40px;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  font-size: 24px;
-  margin-top: 20px;
-  margin-left: 214px;
-  opacity: 0;
-  animation: ${fadeIn} 1s ease forwards;
-  animation-delay: 2s;
 
-  &:hover {
-    background-color: #6a1b9a;
-    transform: scale(1.1);
+
+
+const Button = styled.button`
+  font-size: 18px;
+  color: white;
+  font-weight: 500;
+  letter-spacing: 1px;
+  padding: 15px 30px;
+  outline: 0;
+  border: 1px solid black;
+  cursor: pointer;
+  position: relative;
+  margin-left: 1195px;
+  margin-top: -665px;
+  background-color: rgba(0, 0, 0, 0);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+
+  &:after {
+    content: "";
+    background-color: purple;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 5px;
+    left: 7px;
+    transition: 0.2s;
+    z-index: -1;
+  }
+
+  &:hover:after {
+    top: 0px;
+    left: 0px;
+  }
+
+  @media (min-width: 768px) {
+    padding: 13px 50px;
   }
 `;
 
@@ -91,10 +115,10 @@ const ImageContainer = styled.div`
   flex-direction: column;
 `;
 
-const Image = styled.img`
-  height: 60vh;
-  width: 60vh;
-`;
+// const Image = styled.img`
+//   height: 60vh;
+//   width: 60vh;
+// `;
 
 const CollectionContainer = styled.div`
   display: flex;
@@ -170,6 +194,7 @@ const ArrowCircle = styled(Link)`
   text-decoration: none;
 `;
 
+
 const Text = styled.p`
   font-size: 14px;
   color: #666;
@@ -183,27 +208,154 @@ const Spacer = styled.div`
   height: 80px;
 `;
 
+
+const HomePageContainer = styled.div`
+  text-align: center;
+  margin-bottom: -144px;
+`;
+
+const Header = styled.div`
+  background-color: #eef2fb;
+  padding: 0.05em;
+  margin-bottom: 1em;
+`;
+
+const HeaderText = styled.p`
+  font-size: 1.2rem;
+
+  @media (max-width: 1200px) {
+    font-size: 0.9375rem;
+  }
+
+  @media (max-width: 992px) {
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.8125rem;
+  }
+
+  @media (max-width: 576px) {
+    font-size: 0.75rem;
+  }
+`;
+
+const TimeLeft = styled.span`
+  margin-left: 0.625em;
+`;
+
+const Number = styled.span`
+  color: rgb(232, 113, 123);
+  font-size: 1.3125rem;
+  margin-left: 0.25em;
+  margin-top: 1.1875em;
+
+  @media (max-width: 1200px) {
+    font-size: 1.25rem;
+  }
+
+  @media (max-width: 992px) {
+    font-size: 1.1875rem;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1.125rem;
+  }
+
+  @media (max-width: 576px) {
+    font-size: 1rem;
+  }
+`;
+
+// const Content = styled.section`
+//   margin-top: 0.0625em;
+// `;
+
+const Image = styled.img`
+  max-width: 95%;
+  height: auto;
+  margin-top: -1.5625em;
+
+  @media (max-width: 992px) {
+    margin-top: -1.25em;
+  }
+
+  @media (max-width: 768px) {
+    margin-top: -1em;
+  }
+
+  @media (max-width: 576px) {
+    margin-top: -0.75em;
+  }
+`;
+
+const SecondSection = styled.section`
+  margin-top: 14px;
+  padding-bottom: 145px;
+`;
+
+
+
 const Home = () => {
+  const calculateTimeLeft = () => {
+    const targetTime = new Date().getTime() + 12 * 60 * 60 * 1000;
+    const difference = targetTime - new Date().getTime();
+    let timeLeft = {};
+
+    if (difference > 0) {
+      timeLeft = {
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60)
+      };
+    }
+
+    return timeLeft;
+  };
+
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const [targetTime, setTargetTime] = useState(new Date().getTime() + 12 * 60 * 60 * 1000);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const difference = targetTime - new Date().getTime();
+      if (difference > 0) {
+        setTimeLeft({
+          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((difference / 1000 / 60) % 60),
+          seconds: Math.floor((difference / 1000) % 60)
+        });
+      } else {
+        clearInterval(timer);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [targetTime]);
+
   return (
     <>
-      <Container>
-        <Content>
-          <SubText>
-            In this season, find the best <FireIcon />
-          </SubText>
-          <MainText>
-            Exclusive <br />
-            collection for <br />
-            everyone
-          </MainText>
-          <Link to="/dashboard">
+    <HomePageContainer>
+      <Header>
+        <HeaderText>
+          Offer Ends In
+          <TimeLeft>
+            <Number>{timeLeft.hours}</Number> H : 
+            <Number>{timeLeft.minutes}</Number> M : 
+            <Number>{timeLeft.seconds}</Number> S
+          </TimeLeft>
+        </HeaderText>
+      </Header>
+      <Content>
+        <Image src="HomePageTicket.png" alt="Fashion" />
+      </Content>
+      <SecondSection>
+        <Image src="HomePic.jpg" alt="Fashion" />
+      </SecondSection>
+      <Link to="/dashboard">
             <Button>Explore Now</Button>
           </Link>
-        </Content>
-        <ImageContainer>
-          <Image src="final_shopping.png" alt="Image" />
-        </ImageContainer>
-      </Container>
+    </HomePageContainer>
 
       <CollectionContainer>
         <CollectionHeading>Our Collection</CollectionHeading>

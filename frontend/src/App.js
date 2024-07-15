@@ -13,6 +13,9 @@ import ProductDescription from './components/ProductDescription';
 import Cart from './components/Cart';
 import View from './components/ViewHistory';
 import Trending from './components/TrendingPage';
+import SustainabilityPage from './components/Sustainability';
+import CollectionPage from './components/CollectionPage';
+
 const App = () => {
   return (
     <Router>
@@ -30,6 +33,8 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/trend" element={<Trending />} />
         <Route path="/view" element={<View />} />
+        <Route path="/sustainability" element={<SustainabilityPage />} />
+        <Route path="/collection" element={<CollectionPage />} />
       </Routes>
     </Router>
   );

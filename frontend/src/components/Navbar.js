@@ -10,7 +10,7 @@ const NavbarContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 10px;
   font-family: sans-serif;
 `;
 
@@ -50,7 +50,7 @@ const Icon = styled.div`
 `;
 
 const NavbarLogo = styled.img`
-  height: 100px;
+  height: 70px;
   width: 100px;
   margin-left: 34px;
 `;
@@ -81,7 +81,7 @@ const Navbar = () => {
 
   return (
     <NavbarContainer>
-      <NavbarLogo src="final_logo.png" alt="Logo" />
+      <NavbarLogo src="myntralogo.png" alt="Logo" />
       <NavList>
         <NavItem>
           <NavLink to="/">Home</NavLink>
@@ -90,7 +90,7 @@ const Navbar = () => {
           <NavLink to="/products">Products</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink to="/profile">Profile</NavLink>
+          <NavLink to="/sustainability">Sustainability</NavLink>
         </NavItem>
         {
           user && <NavItem>
@@ -139,6 +139,9 @@ const Navbar = () => {
         )}
       </IconWrapper>
     </NavbarContainer>
+
+
+
   );
 };
 
